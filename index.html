@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Down</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <div class="loading-screen">
+      <div class="background-effects">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="particles"></div>
+      </div>
+      <div class="glitch-container">
+        <h1 class="loading-text" data-text="/Down">/Down</h1>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress">
+            <div class="progress-glow"></div>
+          </div>
+        </div>
+        <div class="loading-percentage">0%</div>
+      </div>
+      <button class="enter-site-btn" style="display: none">
+        <span>Enter</span>
+        <div class="btn-glow"></div>
+      </button>
+    </div>
+
+    <style>
+      * {
+        cursor: none;
+      }
+
+      .cursor {
+        width: 8px;
+        height: 8px;
+        background: var(--accent);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.2s ease;
+      }
+
+      .cursor-follower {
+        width: 30px;
+        height: 30px;
+        background: rgba(59, 130, 246, 0.2);
+        border: 1px solid var(--accent);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9998;
+        transition: transform 0.3s ease;
+      }
+
+      .cursor.active {
+        transform: scale(0.5);
+      }
+
+      .cursor-follower.active {
+        transform: scale(1.5);
+      }
+
+      .loading-screen {
+        transition: opacity 0.8s ease;
+        background: linear-gradient(
+          135deg,
+          var(--bg-color),
+          var(--bg-secondary)
+        );
+      }
+
+      .loading-screen.fade-out {
+        opacity: 0;
+      }
+
+      .glitch-container {
+        position: relative;
+        margin-bottom: 2rem;
+      }
+
+      .loading-text {
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .loading-text.glitch {
+        animation: glitch 1s infinite;
+      }
+
+      .loading-text.glitch::before,
+      .loading-text.glitch::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--bg-color);
+      }
+
+      .loading-text.glitch::before {
+        left: 2px;
+        text-shadow: -2px 0 #ff00ff;
+        clip: rect(44px, 450px, 56px, 0);
+        animation: glitch-anim 5s infinite linear alternate-reverse;
+      }
+
+      .loading-text.glitch::after {
+        left: -2px;
+        text-shadow: -2px 0 #00fff9;
+        clip: rect(44px, 450px, 56px, 0);
+        animation: glitch-anim2 5s infinite linear alternate-reverse;
+      }
+
+      .progress-container {
+        position: relative;
+        width: 300px;
+      }
+
+      .progress-bar {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .progress {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .progress-glow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.4),
+          transparent
+        );
+        animation: moveGlow 1.5s linear infinite;
+      }
+
+      .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+
+      .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: var(--accent);
+        border-radius: 50%;
+        animation: float-particle 3s infinite ease-in-out;
+      }
+
+      .enter-site-btn {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-glow {
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(59, 130, 246, 0.2),
+          transparent 70%
+        );
+        animation: rotate-glow 3s linear infinite;
+      }
+
+      @keyframes moveGlow {
+        0% {
+          transform: translateX(-100%);
+        }
+
+        100% {
+          transform: translateX(500%);
+        }
+      }
+
+      @keyframes float-particle {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      @keyframes rotate-glow {
+        0% {
+          transform: rotate(0deg);
+        }
+
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes glitch-anim {
+        0% {
+          clip: rect(31px, 9999px, 94px, 0);
+        }
+
+        4.166666666666666% {
+          clip: rect(91px, 9999px, 43px, 0);
+        }
+
+        8.333333333333332% {
+          clip: rect(85px, 9999px, 30px, 0);
+        }
+
+        12.5% {
+          clip: rect(27px, 9999px, 84px, 0);
+        }
+
+        /* ... continue pattern ... */
+        100% {
+          clip: rect(67px, 9999px, 35px, 0);
+        }
+      }
+
+      @keyframes glitch-anim2 {
+        0% {
+          clip: rect(65px, 9999px, 32px, 0);
+        }
+
+        4.166666666666666% {
+          clip: rect(27px, 9999px, 92px, 0);
+        }
+
+        8.333333333333332% {
+          clip: rect(86px, 9999px, 29px, 0);
+        }
+
+        12.5% {
+          clip: rect(33px, 9999px, 89px, 0);
+        }
+
+        100% {
+          clip: rect(70px, 9999px, 46px, 0);
+        }
+      }
+    </style>
+
+    <script>
+      const cursor = document.querySelector(".cursor");
+      const cursorFollower = document.querySelector(".cursor-follower");
+
+      document.addEventListener("mousemove", (e) => {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+
+        cursorFollower.style.left = e.clientX - 11 + "px";
+        cursorFollower.style.top = e.clientY - 11 + "px";
+      });
+
+      document.addEventListener("mousedown", () => {
+        cursor.classList.add("active");
+        cursorFollower.classList.add("active");
+      });
+
+      document.addEventListener("mouseup", () => {
+        cursor.classList.remove("active");
+        cursorFollower.classList.remove("active");
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const progress = document.querySelector(".progress");
+        const progressGlow = document.querySelector(".progress-glow");
+        const enterBtn = document.querySelector(".enter-site-btn");
+        const percentage = document.querySelector(".loading-percentage");
+        const circles = document.querySelectorAll(".circle");
+        const loadingText = document.querySelector(".loading-text");
+        let width = 0;
+
+        const particles = document.querySelector(".particles");
+        for (let i = 0; i < 50; i++) {
+          const particle = document.createElement("div");
+          particle.className = "particle";
+          particles.appendChild(particle);
+          positionParticle(particle);
+        }
+
+        function positionParticle(particle) {
+          const x = Math.random() * window.innerWidth;
+          const y = Math.random() * window.innerHeight;
+          const scale = 0.2 + Math.random() * 0.8;
+          const duration = 2 + Math.random() * 4;
+          particle.style.cssText = `
+                    left: ${x}px;
+                    top: ${y}px;
+                    transform: scale(${scale});
+                    animation-duration: ${duration}s;
+                `;
+        }
+
+        const interval = setInterval(() => {
+          if (width >= 100) {
+            clearInterval(interval);
+            enterBtn.style.display = "block";
+            enterBtn.style.opacity = "1";
+            percentage.style.opacity = "0";
+            progress.style.boxShadow = "0 0 30px var(--accent)";
+            document
+              .querySelector(".background-effects")
+              .classList.add("loaded");
+            loadingText.classList.add("glitch");
+          } else {
+            width++;
+            progress.style.width = width + "%";
+            progressGlow.style.left = `${width}%`;
+            percentage.textContent = width + "%";
+
+            if (width > 80) {
+              progress.style.boxShadow = `0 0 ${width / 4}px var(--accent)`;
+              loadingText.style.letterSpacing = `${(width - 80) / 10}px`;
+            }
+
+            circles.forEach((circle, index) => {
+              const scale = 1 + width / 200;
+              const rotate = width * (index + 1) * 2;
+              circle.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
+              circle.style.opacity = width / 200;
+            });
+          }
+        }, 30);
+
+        enterBtn.addEventListener("click", () => {
+          enterBtn.classList.add("clicked");
+          document.querySelector(".loading-screen").classList.add("fade-out");
+          setTimeout(() => {
+            window.location.href = "/mingle";
+          }, 800);
+        });
+      });
+    </script>
+  </body>
+</html>
